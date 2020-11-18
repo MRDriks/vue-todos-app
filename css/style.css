@@ -156,11 +156,6 @@ label::before {
   top: 10px;
 }
 
-.arrow-box::before.arrow-active,
-.arrow-box::after.arrow-active {
-  background-color: #2c3e50;
-}
-
 .arrow-box::before {
   transform: rotate(45deg);
   left: 2px;

@@ -4,8 +4,8 @@ new Vue({
     return {
       todos: [],
       allTodos: [],
-      activeTodos: [],
-      currentTab: 'all'
+      currentTab: 'all',
+      activeTodosCounter: 0
     };
   },
   methods: {
@@ -22,7 +22,7 @@ new Vue({
         this.allTodos.push(todo);
         event.target.value = '';
         this.todos = [...this.allTodos]
-        this.activeTodos = [...this.activeTodosFilter()];
+        this.activeTodosCounter = this.countActiveTodos;
         this.currentTab = 'all';
         Vue.nextTick(() => {
           this.tabChangeState('.btn-all');
@@ -33,7 +33,7 @@ new Vue({
       this.allTodos = this.allTodos.filter(item => {
         return item.id !== id;
       });
-      this.activeTodos = [...this.activeTodosFilter()];
+      this.activeTodosCounter = this.countActiveTodos;
       this.switchTab();
     },
     checkboxOnChange(id) {
@@ -43,7 +43,7 @@ new Vue({
         }
         return item;
       });
-      this.activeTodos = [...this.activeTodosFilter()];
+      this.activeTodosCounter = this.countActiveTodos;
       this.switchTab();
     },
     activeTodosFilter() {
@@ -85,7 +85,7 @@ new Vue({
       this.allTodos = this.allTodos.filter(item => {
         return !completedTodos.includes(item);
       });
-      this.activeTodos = [...this.activeTodosFilter()];
+      this.activeTodosCounter = this.countActiveTodos;
       this.switchTab();
     },
     selectAllItemsClick() {
@@ -96,14 +96,14 @@ new Vue({
             return item;
           });
           this.todos = [...this.allTodos];
-          this.activeTodos = [...this.activeTodosFilter()];
+          this.activeTodosCounter = this.countActiveTodos;
           break;
         case 'active':
           this.allTodos = this.allTodos.map(item => {
             item.active = false;
             return item;
           });
-          this.activeTodos = [...this.activeTodosFilter()];
+          this.activeTodosCounter = this.countActiveTodos;
           this.todos = [...this.activeTodosFilter()];
           break;
         case 'completed':
@@ -111,7 +111,7 @@ new Vue({
             item.active = true;
             return item;
           });
-          this.activeTodos = [...this.activeTodosFilter()];
+          this.activeTodosCounter = this.countActiveTodos;
           this.todos = [...this.completedTodosFilter()];
           break;
       }
@@ -123,6 +123,11 @@ new Vue({
     },
     renderStyle(item) {
       return item.active === false ? 'todo-item-checked todo-item-checked::before' : '';
+    }
+  },
+  computed: {
+    countActiveTodos() {
+      return this.activeTodosFilter().length;
     }
   }
 });
