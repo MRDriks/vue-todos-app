@@ -1,11 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="./favicon.ico">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Todos</title>
+  </head>
+  <body>
+    <div id="app" class="wrapper">
+      <h1 class="title">Todos</h1>
+      <div class="todos" v-cloak>
+        <header class="header">
+          <div 
+            class="arrow-box" 
+            title="Select all" 
+            @click="selectAllItemsClick"
+            v-if="allTodos.length"
+          ></div>
+          <input
+            type="text"
+            placeholder="What needs to be done?"
+            @keyup.enter="addTodo($event)"
+          />
+        </header>
+        <main class="main" v-if="todos.length">
+          <ul class="todo-list">
+            <li class="todo-item" v-for="(todo, index) in todos" :key="index">
+              <input type="checkbox" :id="'item_' + todo.id" @click="checkboxOnChange(todo.id)" />
+              <label 
+                :for="'item_' + todo.id"
+                :class="renderStyle(todo)"
+              >{{ todo.description }}</label>
+              <span class="remove-item" @click="removeTodo(todo.id)"></span>
+            </li>
+          </ul>
+        </main>
+        <footer class="footer" v-if="allTodos.length">
+          <p class="items-counter">{{ activeTodos.length }} items left</p>
+          <div class="tabs">
+            <button class="btn btn-all active" @click="allTabClick">All</button>
+            <button class="btn btn-active" @click="activeTabClick">Active</button>
+            <button class="btn btn-completed" @click="completedTabClick">Completed</button>
+          </div>
+          <button 
+            class="btn btn-clear" 
+            v-if="completedTodosFilter().length" 
+            @click="btnClearClick"
+          >Clear completed</button>
+        </footer>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script src="./js/main.js"></script>
+  </body>
 </html>
