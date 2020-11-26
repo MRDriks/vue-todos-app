@@ -1,3 +1,3 @@
-### todos-app
+### Todos app using Vue.js
 
-https://mrdriks.github.io/todos-app/
+https://mrdriks.github.io/vue-todos-app/
